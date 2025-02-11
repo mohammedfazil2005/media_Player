@@ -1,9 +1,16 @@
 import React from 'react'
+import HistoryHeading from '../Components/HistoryHeading'
+import HistoryTable from '../Components/HistoryTable'
 
 const History = () => {
   return (
-    <div>
-      <h1>history</h1>
+    <div className='container'>
+      <div>
+        <HistoryHeading/>
+      </div>
+      <div>
+        <HistoryTable/>
+      </div>
     </div>
   )
 }
