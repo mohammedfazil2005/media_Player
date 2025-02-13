@@ -14,7 +14,7 @@ const Footer = () => {
         </div>
         <div className='c-div'>
           <h1>Links</h1>
-          <Link to={'/'}>Landing page</Link>
+          <Link to={'/'} >Landing page</Link>
           <Link to={'/home'}>Home page</Link>
           <Link to={'/history'}>History page</Link>
         </div>

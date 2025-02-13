@@ -4,3 +4,6 @@
   font-family: outfit;
   box-sizing: border-box;
 }
+a{
+  text-decoration: none;
+}
