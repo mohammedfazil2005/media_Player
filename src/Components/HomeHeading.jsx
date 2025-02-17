@@ -5,7 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import { uploadVideo } from '../services/AllAPI';
-const HomeHeading = () => {
+const HomeHeading = ({setVideoResponce}) => {
 
   const [video,setVideo]=useState({
       videoCaption:"",
@@ -39,6 +39,7 @@ const HomeHeading = () => {
     if(video.videoCaption&&video.videoImageUrl&&video.videoLink){
      try {
       const responce=await uploadVideo(video)
+      setVideoResponce(responce)
       if(responce.status>=200&&responce.status<=300){
         alert("SuccessFully added")
         setShow(false)
