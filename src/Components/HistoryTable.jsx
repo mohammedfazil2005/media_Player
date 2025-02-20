@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Table } from 'react-bootstrap'
-import { getAllHistory } from '../services/AllAPI'
+import { deleteHistory, getAllHistory } from '../services/AllAPI'
 import { Link } from 'react-router-dom'
 
 
@@ -17,11 +17,22 @@ const HistoryTable = () => {
     }
   }
 
+  const onDeleteButton=async(id)=>{
+    try {
+      await deleteHistory(id)
+      fetchHistory()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
+
   useEffect(()=>{
     fetchHistory()
   },[])
 
-  console.log(history)
+
 
 
   return (
@@ -44,10 +55,12 @@ const HistoryTable = () => {
           <td>{a.videoCaption}</td>
           <Link to={`https://youtu.be/${a.videoLink}`} target='__blank'>{`https://youtu.be/${a.videoLink}`}</Link>
           <td>{a.formatedDate}</td>
-         <td> <button className='btn btn-danger'>Delete</button></td>
+         <td> <button className='btn btn-danger' onClick={()=>onDeleteButton(a.id)}>Delete</button></td>
         </tr>
           </>
-        )):"nothing"}
+        )):<div >
+          <h1 className='text-center fw-bold text-danger'>No History found</h1>
+          </div>}
       </tbody>
     </Table>
     </div>

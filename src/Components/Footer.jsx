@@ -28,14 +28,14 @@ const Footer = () => {
           <h1>Contact</h1>
           <div className='inp-div'>
             <input type="text" className='form-control'/>
-            <button className='btn btn-primary'><i class="fa-solid fa-arrow-right"></i></button>
+            <button className='btn btn-primary'><i className="fa-solid fa-arrow-right"></i></button>
           </div>
           <div className='i-div'>
-          <i class="fa-brands fa-twitter"></i>
-          <i class="fa-brands fa-instagram"></i>
-          <i class="fa-brands fa-facebook"></i>
-          <i class="fa-brands fa-linkedin"></i>
-          <i class="fa-brands fa-github"></i>
+          <i className="fa-brands fa-twitter"></i>
+          <i className="fa-brands fa-instagram"></i>
+          <i className="fa-brands fa-facebook"></i>
+          <i className="fa-brands fa-linkedin"></i>
+          <i className="fa-brands fa-github"></i>
           </div>
         </div>
       </footer>
