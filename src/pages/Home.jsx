@@ -7,6 +7,7 @@ import AllCategories from '../Components/AllCategories'
 const Home = () => {
   const [videResponce,setVideoResponce]=useState("")
   const [videoDeleteResponce,setVideoDeleteResponce]=useState("")
+  const [categoryDeleteResponce,setCategoryDeleteResponce]=useState("")
   return (
     <div className='container mt-4 '>
      <div className='d-flex justify-content-between'>
@@ -19,10 +20,10 @@ const Home = () => {
      </div>
      <div className='d-flex justify-content-between mt-5'>
       <div>
-        <AllVideos videResponce={videResponce} videoDeleteResponce={videoDeleteResponce}/>
+        <AllVideos videResponce={videResponce} videoDeleteResponce={videoDeleteResponce} setCategoryDeleteResponce={setCategoryDeleteResponce}/>
       </div>
       <div>
-        <AllCategories  setVideoDeleteResponce={setVideoDeleteResponce}/>
+        <AllCategories  setVideoDeleteResponce={setVideoDeleteResponce} categoryDeleteResponce={categoryDeleteResponce}/>
       </div>
      </div>
     </div>

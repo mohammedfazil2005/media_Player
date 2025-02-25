@@ -6,9 +6,9 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
-import { addHistory, deleteVideo, getAllVideo } from '../services/AllAPI';
+import { addHistory, deleteVideo, getAllVideo, getCategoryById, updateCategory, uploadVideo } from '../services/AllAPI';
 
-const AllVideos = ({videResponce,videoDeleteResponce}) => {
+const AllVideos = ({videResponce,videoDeleteResponce,setCategoryDeleteResponce}) => {
 
        const [show, setShow] = useState(false);
        const [data,setData]=useState([])
@@ -61,6 +61,31 @@ const AllVideos = ({videResponce,videoDeleteResponce}) => {
           
         }
 
+        const onDragOverDiv=(e)=>{
+          e.preventDefault()
+        }
+
+        const onDragFinished=async(e)=>{
+          let {categoryId,video}=JSON.parse(e.dataTransfer.getData("fromCategoryVideo"))
+          console.log(categoryId)
+          await uploadVideo(video)
+          getVideo()
+
+          let apiResponce=await getCategoryById(categoryId)
+          let currentVideos=apiResponce.data.allCategories
+          let sortedVideos=currentVideos.filter((a)=>a.id!=video.id)
+
+        console.log(sortedVideos)
+        const payload={
+          id:categoryId,
+          category:apiResponce.data.category,
+          allCategories:sortedVideos
+        }
+       let deleteResponce= await updateCategory(categoryId,payload)
+       setCategoryDeleteResponce(deleteResponce)
+        }
+
+
 
 
 
@@ -70,9 +95,9 @@ const AllVideos = ({videResponce,videoDeleteResponce}) => {
 
 
   return (
-    <> <div>
+    <> <div onDragOver={(e)=>onDragOverDiv(e)} onDrop={(e)=>onDragFinished(e)} className='border  p-2' style={{minHeight:'300px',minWidth:'300px'}}>
       <h1 className='fw-bold'>All vidoes</h1>
-      <div className='d-flex flex-wrap gap-2 '>
+      <div className='d-flex flex-wrap gap-5 '>
       {data.map((a,key )=>(
         <Card draggable={true} onDragStart={(e)=>onVideoDrag(e,a.id)} key={key+1}  style={{ width: '220px' }} className='mb-2' >
         <Card.Img variant="top" src={a.videoImageUrl} style={{height:'200px',width:'100%'}} onClick={()=>handleShow(a)}/>

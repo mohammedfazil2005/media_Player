@@ -6,14 +6,24 @@ import { addCategory, deleteCatgeory, deleteVideo, getCategory, singleVideo, upd
 
 
 
-const AllCategories = ({setVideoDeleteResponce}) => {
+const AllCategories = ({setVideoDeleteResponce,categoryDeleteResponce}) => {
   const [show, setShow] = useState(false);
   const [category,setCategory]=useState("")
   const [data,setData]=useState([])
+  const [showVideo,setShowVideo]=useState(false)
+  const [selectedVideo,setselectedVideo]=useState(null)
 
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const handleCloseVideo=()=>setShowVideo(false);
+  const handleShowVideo=(video)=>{
+    setselectedVideo(video)
+    setShowVideo(true)
+  };
+
+
 
   const addCatgories=async()=>{
     if(category){
@@ -72,10 +82,17 @@ const AllCategories = ({setVideoDeleteResponce}) => {
   const onDragOver=(e)=>{
     e.preventDefault()
   }
+  const onDragCategory=(event,categoryId,video)=>{
+    console.log(`Started dragging ${categoryId}`)
+    let dataToTransfer={
+      categoryId,video
+    }
+    event.dataTransfer.setData("fromCategoryVideo",JSON.stringify(dataToTransfer))
+  }
 
   useEffect(()=>{
     getAllCatgeory()
-  },[])
+  },[categoryDeleteResponce])
     
   return (
     <>
@@ -91,8 +108,8 @@ const AllCategories = ({setVideoDeleteResponce}) => {
       </div>
       <div className='row'>
         {a.allCategories.map((eachVideo)=>(
-           <div className="col-6">
-           <Card  style={{ width: '220px' }} className='mb-2' >
+           <div className="col-6" draggable={true} onDragStart={(e)=>onDragCategory(e,a.id,eachVideo)}>
+           <Card  style={{ width: '220px' }} className='mb-2' onClick={()=>handleShowVideo(eachVideo)} draggable={false}>
            <Card.Img variant="top" src={eachVideo.videoImageUrl} style={{height:'200px',width:'100%'}} />
            <Card.Body>
              <div className='d-flex justify-content-between align-items-center'>
@@ -131,6 +148,18 @@ const AllCategories = ({setVideoDeleteResponce}) => {
           </Button>
         </Modal.Footer>
       </Modal>
+
+       {selectedVideo&&(
+              <Modal show={showVideo} onHide={handleCloseVideo} size='lg'>
+              <Modal.Header closeButton>
+                <Modal.Title>{selectedVideo.videoCaption}</Modal.Title>
+              </Modal.Header>
+              <Modal.Body className='border border-1 border-warning'>
+              <iframe width="100%" height="315" src={`https://www.youtube.com/embed/${selectedVideo.videoLink}&autoplay=1`} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+              </Modal.Body>
+              
+            </Modal>
+             )}
    
     </>
 
